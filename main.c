@@ -5,7 +5,7 @@ void draw(DIR *dir, size_t focus) {
 	#if _WIN32
 		system("cls");
 	#else
-		system("clear");
+		erase();
 	#endif
 
 	// Print files
@@ -13,7 +13,7 @@ void draw(DIR *dir, size_t focus) {
 	struct dirent *file;
 	rewinddir(dir);
 	while ((file = readdir(dir)) != NULL) {
-		printf("%c %s\n", (i == focus) ? '>' : ' ', file->d_name);
+		printw("%c %s\n", (i == focus) ? '>' : ' ', file->d_name);
 		i++;
 	}
 }
@@ -59,6 +59,12 @@ int main(int argc, char **argv) {
 	chdir(argv[1]);
 	size_t files = countdir(dir);
 
+	// Initialize screen for UNIX
+	#if !(_WIN32)
+		initscr();
+		noecho();
+	#endif
+
 	// Initial draw
 	size_t focus = 0;
 	draw(dir, focus);
@@ -73,6 +79,7 @@ int main(int argc, char **argv) {
 			case 3:
 				return 0;
 			// Enter
+			case 10:
 			case 13:
 				newdir = cd(dir, focus);
 				if (newdir != NULL) {
@@ -83,15 +90,17 @@ int main(int argc, char **argv) {
 				}
 				break;
 			// Up
+			case 65:
 			case 72:
-				if (prev == 0 && focus > 0) {
+				if ((prev == 0 || prev == 91) && focus > 0) {
 					focus--;
 					draw(dir, focus);
 				}
 				break;
 			// Down
+			case 66:
 			case 80:
-				if (prev == 0 && focus < files - 1) {
+				if ((prev == 0 || prev == 91) && focus < files - 1) {
 					focus++;
 					draw(dir, focus);
 				}
