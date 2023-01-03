@@ -1,20 +1,12 @@
-#include <conio.h>
-#include <stdio.h>
-#if __has_include(<unistd.h>)
-	#include <unistd.h>
-#else
-	#include "lib/unistd.h"
-#endif
-#if __has_include(<dirent.h>)
-	#include <dirent.h>
-#else
-	#include "lib/dirent.h"
-#endif
-
+#include "main.h"
 
 void draw(DIR *dir, size_t focus) {
 	// Clear screen
-	system("cls");
+	#if _WIN32
+		system("cls");
+	#else
+		system("clear");
+	#endif
 
 	// Print files
 	size_t i = 0;
@@ -27,6 +19,7 @@ void draw(DIR *dir, size_t focus) {
 }
 
 size_t countdir(DIR *dir) {
+	// Get the file count
 	size_t i = 0;
 	struct dirent *file;
 	rewinddir(dir);
@@ -58,7 +51,7 @@ int main(int argc, char **argv) {
 	// Error: Expected program and one argument
 	if (argc != 2) {
 		printf("Expected 1 folder name argument\n");
-		return 1;
+		return -1;
 	}
 
 	// Open root directory of media
@@ -72,6 +65,7 @@ int main(int argc, char **argv) {
 
 	// Get user input and redraw
 	char prev = -1;
+	DIR *newdir;
 	while (1) {
 		const char curr = getch();
 		switch (curr) {
@@ -80,7 +74,7 @@ int main(int argc, char **argv) {
 				return 0;
 			// Enter
 			case 13:
-				DIR *newdir = cd(dir, focus);
+				newdir = cd(dir, focus);
 				if (newdir != NULL) {
 					dir = newdir;
 					files = countdir(dir);
