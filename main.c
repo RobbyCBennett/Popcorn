@@ -63,6 +63,8 @@ int main(int argc, char **argv) {
 	#if !(_WIN32)
 		initscr();
 		noecho();
+		raw();
+		curs_set(0);
 	#endif
 
 	// Initial draw
@@ -78,9 +80,10 @@ int main(int argc, char **argv) {
 			// Control C
 			case 3:
 				return 0;
-			// Enter
+			// Enter or space
 			case 10:
 			case 13:
+			case 32:
 				newdir = cd(dir, focus);
 				if (newdir != NULL) {
 					dir = newdir;

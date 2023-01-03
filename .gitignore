@@ -3,3 +3,4 @@ obj
 popcorn
 *.exe
 *.lnk
+.env

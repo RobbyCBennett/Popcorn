@@ -2,7 +2,11 @@ PROGRAM = popcorn.exe
 
 COMPILE = clang
 C_FLAGS = -O2 -Wall -Wextra -Wpedantic -std=c17
-L_FLAGS =
+L_FLAGS = -lncurses
+
+ifeq ($(OS),Windows_NT)
+	L_FLAGS =
+endif
 
 OBJ_DIR	= obj
 SOURCES = $(wildcard *.c)
@@ -20,7 +24,7 @@ $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 
 run: $(PROGRAM)
-	./$(PROGRAM)
+	./$(PROGRAM) $(shell cat .env)
 
 clean:
 	rm -rf obj $(PROGRAM)
