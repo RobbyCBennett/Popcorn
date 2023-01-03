@@ -1,0 +1,5 @@
+.vscode
+obj
+popcorn
+*.exe
+*.lnk
