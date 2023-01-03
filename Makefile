@@ -1,10 +1,11 @@
-PROGRAM = popcorn.exe
+PROGRAM = popcorn
 
 COMPILE = clang
 C_FLAGS = -O2 -Wall -Wextra -Wpedantic -std=c17
 L_FLAGS = -lncurses
 
 ifeq ($(OS),Windows_NT)
+	PROGRAM = popcorn.exe
 	L_FLAGS =
 endif
 
