@@ -47,6 +47,27 @@ DIR *cd(DIR *dir, size_t focus) {
 	return newdir;
 }
 
+void open(DIR *dir, size_t focus) {
+	// Get the file
+	size_t i = 0;
+	struct dirent *file = NULL;
+	rewinddir(dir);
+	while ((file = readdir(dir)) != NULL && i != focus)
+		i++;
+
+	// Get the file name in quotes, with ./ on Linux
+	char command[256];
+	#if !(_WIN32)
+		strcat_s(command, sizeof command, "./");
+	#endif
+	strcat_s(command, sizeof command, "\"");
+	strcat_s(command, sizeof command, file->d_name);
+	strcat_s(command, sizeof command, "\"");
+
+	// Open the file
+	system(command);
+}
+
 int main(int argc, char **argv) {
 	// Error: Expected program and one argument
 	if (argc != 2) {
@@ -84,6 +105,7 @@ int main(int argc, char **argv) {
 			case 10:
 			case 13:
 			case 32:
+				// Change directory
 				newdir = cd(dir, focus);
 				if (newdir != NULL) {
 					dir = newdir;
@@ -91,6 +113,9 @@ int main(int argc, char **argv) {
 					focus = 0;
 					draw(dir, focus);
 				}
+				// Open file
+				else
+					open(dir, focus);
 				break;
 			// Up
 			case 65:

@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #if __has_include(<ncurses.h>)
 	#include <ncurses.h>

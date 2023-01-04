@@ -1,7 +1,7 @@
 PROGRAM = popcorn
 
 COMPILE = clang
-C_FLAGS = -O2 -Wall -Wextra -Wpedantic -std=c17
+C_FLAGS = -O3 -Wall -Wextra -Wpedantic -std=c17
 L_FLAGS = -lncurses
 
 ifeq ($(OS),Windows_NT)
