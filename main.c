@@ -58,11 +58,12 @@ void open(DIR *dir, size_t focus) {
 	// Get the file name in quotes, with ./ on Linux
 	char command[256];
 	#if !(_WIN32)
-		strcat_s(command, sizeof command, "./");
+		strcat(command, "./");
 	#endif
-	strcat_s(command, sizeof command, "\"");
-	strcat_s(command, sizeof command, file->d_name);
-	strcat_s(command, sizeof command, "\"");
+	strcat(command, "\"");
+	strcat(command, file->d_name);
+	strcat(command, "\"");
+	printw("%s\n", command);
 
 	// Open the file
 	system(command);
