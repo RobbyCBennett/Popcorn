@@ -47,7 +47,7 @@ DIR *cd(DIR *dir, size_t focus) {
 	return newdir;
 }
 
-void open(DIR *dir, size_t focus) {
+void execute(DIR *dir, size_t focus) {
 	// Get the file
 	size_t i = 0;
 	struct dirent *file = NULL;
@@ -56,14 +56,14 @@ void open(DIR *dir, size_t focus) {
 		i++;
 
 	// Get the file name in quotes, with ./ on Linux
-	char command[256];
+	char command[260];
+	command[0] = 0;
 	#if !(_WIN32)
 		strcat(command, "./");
 	#endif
 	strcat(command, "\"");
 	strcat(command, file->d_name);
 	strcat(command, "\"");
-	printw("%s\n", command);
 
 	// Open the file
 	system(command);
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
 				}
 				// Open file
 				else
-					open(dir, focus);
+					execute(dir, focus);
 				break;
 			// Up
 			case 65:
