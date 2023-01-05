@@ -1,0 +1,7 @@
+- [ ] Games
+- [ ] Movies
+- [ ] Shows
+- [ ] Home button
+- [ ] Back button
+- [ ] Remove back button from home page
+- [ ] Sort results
